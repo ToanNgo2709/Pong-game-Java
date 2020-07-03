@@ -14,7 +14,5 @@ public class Window {
         frame.setLocationRelativeTo(null); // make thing center of the screen
         frame.setVisible(true);
 
-        game.start();
-
     }
 }

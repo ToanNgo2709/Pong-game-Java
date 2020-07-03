@@ -15,12 +15,16 @@ public class Game extends Canvas implements Runnable {
     private Paddle paddle1;
     private Paddle paddle2;
 
+    public MainMenu mainMenu;
+
     public Game(){
         canvasSetup();
-        initialize();
-
         new Window("Simple Pong game", this); // create window to perform "this" game
+
+        initialize();
         this.addKeyListener(new KeyInput(paddle1, paddle2));
+        this.addMouseListener(mainMenu);
+        this.addMouseMotionListener(mainMenu);
         this.setFocusable(true);
 
     }
@@ -44,6 +48,9 @@ public class Game extends Canvas implements Runnable {
         //initialize paddle
         paddle1 = new Paddle(Color.red, true); // left paddle
         paddle2 = new Paddle(Color.green, false); // right paddle
+
+        //initialize menu
+        mainMenu = new MainMenu(this);
 
 
     }
@@ -96,6 +103,9 @@ public class Game extends Canvas implements Runnable {
         Graphics graphics = buffer.getDrawGraphics();
         // draw background
         drawBackground(graphics);
+        if(mainMenu.active){
+            mainMenu.draw(graphics);
+        }
 
         //draw paddle and score
         paddle1.draw(graphics);
@@ -123,11 +133,14 @@ public class Game extends Canvas implements Runnable {
     }
 
     private void update() {
-        //update ball
-        ball.update(paddle1, paddle2);
-        //update paddle
-        paddle1.update(ball);
-        paddle2.update(ball);
+        if(!mainMenu.active){
+            //update ball
+            ball.update(paddle1, paddle2);
+            //update paddle
+            paddle1.update(ball);
+            paddle2.update(ball);
+        }
+
 
     }
 
